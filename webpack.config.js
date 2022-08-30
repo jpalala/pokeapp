@@ -8,7 +8,10 @@ module.exports = {
       filename: 'bundle.js'
    },
    devServer: {
-      port: 8080
+
+      hot: true,
+      port: 3001
+
    },
    module: {
       rules: [
@@ -19,13 +22,31 @@ module.exports = {
          },
          {
             test: /\.css$/,
-            use: [ 'style-loader', 'css-loader' ]
+            use: [
+              { 
+               loader: 'style-loader'
+              },
+              {
+                loader:  'css-loader' 
+              }]
+        },
+        {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+          ],
         }
       ]
    },
-   plugins:[
-       new HtmlWebpackPlugin({
-            template: path.join(__dirname,'/src/index.html')
-       }) 
-   ]
+  plugins: [
+    new HtmlWebpackPlugin(
+    { inject: true,
+      template: path.resolve(__dirname, "src", "index.html"),
+      filename: "index.html"
+  })] 
 }

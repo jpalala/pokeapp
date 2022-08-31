@@ -2,7 +2,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
-   entry: './src/index.js',
+   entry: ['react-hot-loader/patch','./src/index.js'],
    output: {
       path: path.join(__dirname, '/dist'),
       filename: 'bundle.js'
@@ -15,20 +15,25 @@ module.exports = {
    },
    module: {
       rules: [
-         {
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader',
-         },
-         {
-            test: /\.css$/,
-            use: [
-              { 
-               loader: 'style-loader'
-              },
-              {
-                loader:  'css-loader' 
-              }]
+        {
+          test: /\.jsx?$/,
+          exclude: /node_modules/,
+          use: [{
+                  loader:'react-hot-loader/webpack'
+                }, 
+                {
+                  loader: 'babel-loader'
+                }],
+        },
+        {
+          test: /\.css$/,
+          use: [
+            { 
+              loader: 'style-loader'
+            },
+            {
+              loader:  'css-loader' 
+            }]
         },
         {
         test: /\.svg$/,
@@ -40,6 +45,13 @@ module.exports = {
             },
           },
           ],
+        },
+        {
+          test: /\.(jpe?g|png|gif)$/i, 
+          loader: 'url-loader',
+          options: {
+            name: '/images/[name].[ext]'
+          }
         }
       ]
    },
